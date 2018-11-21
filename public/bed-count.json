@@ -1,0 +1,132 @@
+[
+  {
+    "title":"内科",
+    "table":[
+      {
+        "bed": "普通床位",
+        "manBed": 15,
+        "womanBed": 23,
+        "noLimit":33,
+        "count":111
+      },
+      {
+        "bed": "加床床位",
+        "manBed": 15,
+        "womanBed": 23,
+        "noLimit":33,
+        "count":111
+      },
+      {
+        "bed": "特殊床位",
+        "manBed": 15,
+        "womanBed": 23,
+        "noLimit":33,
+        "count":111
+      }
+    ]
+  },
+  {
+    "title":"内科",
+    "table":[
+      {
+        "bed": "普通床位",
+        "manBed": 15,
+        "womanBed": 23,
+        "noLimit":33,
+        "count":111
+      },
+      {
+        "bed": "加床床位",
+        "manBed": 15,
+        "womanBed": 23,
+        "noLimit":33,
+        "count":111
+      },
+      {
+        "bed": "特殊床位",
+        "manBed": 15,
+        "womanBed": 23,
+        "noLimit":33,
+        "count":111
+      }
+    ]
+  },
+  {
+    "title":"内科",
+    "table":[
+      {
+        "bed": "普通床位",
+        "manBed": 15,
+        "womanBed": 23,
+        "noLimit":33,
+        "count":111
+      },
+      {
+        "bed": "加床床位",
+        "manBed": 15,
+        "womanBed": 23,
+        "noLimit":33,
+        "count":111
+      },
+      {
+        "bed": "特殊床位",
+        "manBed": 15,
+        "womanBed": 23,
+        "noLimit":33,
+        "count":111
+      }
+    ]
+  },
+  {
+    "title":"内科",
+    "table":[
+      {
+        "bed": "普通床位",
+        "manBed": 15,
+        "womanBed": 23,
+        "noLimit":33,
+        "count":111
+      },
+      {
+        "bed": "加床床位",
+        "manBed": 15,
+        "womanBed": 23,
+        "noLimit":33,
+        "count":111
+      },
+      {
+        "bed": "特殊床位",
+        "manBed": 15,
+        "womanBed": 23,
+        "noLimit":33,
+        "count":111
+      }
+    ]
+  },
+  {
+    "title":"内科",
+    "table":[
+      {
+        "bed": "普通床位",
+        "manBed": 15,
+        "womanBed": 23,
+        "noLimit":33,
+        "count":111
+      },
+      {
+        "bed": "加床床位",
+        "manBed": 15,
+        "womanBed": 23,
+        "noLimit":33,
+        "count":111
+      },
+      {
+        "bed": "特殊床位",
+        "manBed": 15,
+        "womanBed": 23,
+        "noLimit":33,
+        "count":111
+      }
+    ]
+  }
+]

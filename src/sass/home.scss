@@ -1,0 +1,157 @@
+.home{
+   .total-people{
+     background: linear-gradient(to right, #37c3fe , #2f8fff);
+     ul{
+       display: flex;
+       height: 120px;
+       align-items: center;
+       li{
+         width:50%;
+         text-align: center;
+         &:first-child{
+           position: relative;
+           &:after{
+             content: " ";
+             display: block;
+             position: absolute;
+             height:80px;
+             right:0;
+             top:-10px;
+             border-right: 1px solid #90d3fe;
+
+           }
+
+         }
+         p{
+           margin-bottom: 16px;
+           color:#ffffff;
+         }
+         strong{
+           color:#fdfd05;
+           font-size: 22px;
+         }
+       }
+     }
+     section{
+       display: flex;
+       justify-content: center;
+       padding-bottom: 16px;
+       div{
+         width:120px;
+         i{
+           color:#999999;
+         }
+         input{
+           padding:0 10px;
+           height:26px;
+           border:none;
+           color:#ffffff;
+           background:#90d3fd;
+         }
+         .el-icon-d-arrow-right,.el-icon-d-arrow-left{
+           //display: none;
+         }
+       }
+     }
+
+   }
+   .departments{
+     margin-bottom: 16px;
+     background: #ffffff;
+     dl{
+       float: left;
+       width:33.3333%;
+       height:80px;
+       text-align: center;
+       a{
+         display: block;
+       }
+       dt{
+         width:50px;
+         height:50px;
+         margin: 0 auto 6px;
+         &.revise{
+           height: 32px;
+           width: 38px;
+           padding-top: 18px;
+         }
+         img{
+           width:100%;
+           height:100%;
+         }
+       }
+     }
+   }
+   .data-count{
+     background: #ffffff;
+     padding:20px 10px 10px;
+     margin-bottom: 20px;
+     h3{
+       margin-bottom: 10px;
+
+     }
+     ul{
+       li{
+         float: left;
+         display: flex;
+         align-items: center;
+         width:50%;
+         height:50px;
+         font-size: 16px;
+         img{
+           width: 32px;
+           height:30px;
+           margin-right:10px;
+         }
+       }
+     }
+
+   }
+   .duty{
+     padding:20px 10px;
+     background:#ffffff;
+     section{
+       display: flex;
+       flex-direction: column;
+       width:calc(50% - 26px);
+       height:80px;
+       padding:10px;
+       border-radius: 5px;
+       &:first-child{
+         float: left;
+         background: url("../image/hospital_1.png") no-repeat;
+         background-size: 100% 100%;
+       }
+       &:last-child{
+         float: right;
+         background: url("../image/hospital_2.png") no-repeat;
+         background-size: 100% 100%;
+       }
+       p{
+         margin-bottom: 16px;
+         color:#9b9b9d;
+       }
+       strong{
+         font-size: 22px;
+         flex-grow: 1;
+         text-align: center;
+       }
+
+     }
+   }
+  footer{
+    padding-bottom: 20px;
+    background: #ffffff;
+    section{
+      margin: 0 10px;
+      height:50px;
+      border-radius: 5px;
+      line-height: 53px;
+      font-size: 18px;
+      text-align: center;
+      background: #feebef url("../image/address.png") no-repeat center right;
+      background-size: 32px 38px;
+    }
+  }
+
+}

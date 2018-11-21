@@ -1,3 +1,15 @@
+.container{
+    height:calc(100vh - 50px);
+    background: #f5f9fa;
+    overflow: hidden;
+}
+.el-table th{
+    background:#169fff;
+}
+.el-table__header-wrapper thead div{
+    color:#ffffff;
+    background:#169fff;
+}
 .padding-left-10{
     padding-left: 10px;
 }
@@ -5,38 +17,41 @@
     padding-right: 10px;
 }
 
-
 .margin-left-10{
     margin-left: 10px;
 }
 .margin-right-10{
     margin-right:10px;
 }
+.el-collapse-item__header{
+    display: flex;
+    align-items: center;
 
-.icon-xitongjiaoseyingyong{
-     color:#11ddaa;
- }
-.icon-xitongguanli-{
-     color:#fad36c;
- }
-.icon-caozuoxitong{
-     color:#fb56cf;
- }
-.icon-apixitongrizhi{
-     color:#12bbfc;
- }
-.icon-drgspingtairuanjianxitong37{
-     color:#fca03b;
- }
-.icon-xitongguanli{
-     color:#16d2ba;
- }
-.icon-xitongpeizhi{
-     color:#12b6fd;
- }
-.icon-navicon-xtpz{
-    color:#fb36b9;
 }
-.el-message-box{
-   width:300px;
+.el-collapse-item__header section{
+    display: flex;
+    flex-grow: 1;
+    justify-content: space-between;
+    margin-right: 20px;
+}
+.el-collapse{
+
+}
+.table-head{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height:38px;
+    color:#ffffff;
+    background: #169fff;
+}
+.table-head li:first-child{
+    margin-left: 20px;
+}
+.table-head li:last-child{
+    margin-right: 20px;
+}
+.el-table .cell, .el-table th>div{
+    padding:0;
+    text-align: center;
 }

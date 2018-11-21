@@ -1,0 +1,17 @@
+header{
+  display: flex;
+  align-items: center;
+  height:50px;
+  font-size: 22px;
+  color:#ffffff;
+  background: linear-gradient(to right, #37c3fe , #2f8fff);
+  i{
+    padding:10px;
+  }
+  section{
+    flex-grow: 1;
+    margin-right: 42px;
+    text-align: center;
+
+  }
+}

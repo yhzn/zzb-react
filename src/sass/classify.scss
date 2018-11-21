@@ -1,0 +1,39 @@
+.classify{
+  .el-tabs__nav{
+     width: 100%;
+  }
+  .el-tabs__item{
+    padding: 0;
+    width:33.3333%;
+    text-align: center;
+  }
+  .el-tabs__header{
+    margin-bottom: 12px;
+    background: #ffffff;
+  }
+  .el-date-editor.el-input{
+    width: 182px;
+  }
+  .chart-container{
+    margin-bottom:12px;
+    padding-top:10px;
+    background:#ffffff;
+    .select{
+      float:right;
+      width:110px;
+      margin-bottom: 5px;
+      input{
+        height:26px;
+        border:none;
+      }
+    }
+    .chart{
+      height:300px;
+    }
+  }
+
+
+  .el-tab-pane:first-child{
+
+  }
+}

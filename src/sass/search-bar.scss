@@ -1,0 +1,53 @@
+.search-bar{
+  padding: 10px 10px 0;
+  margin-bottom: 12px;
+  background: #ffffff;
+  .el-input__icon{
+    width:20px;
+  }
+  .el-input__inner{
+    padding-right:16px;
+    padding-left:5px;
+  }
+  .el-input.el-date-editor.el-date-editor--date{
+    width:152px;
+  }
+  li{
+    display: flex;
+    align-items: center;
+    float:left;
+    height:38px;
+    &:nth-child(2){
+      margin: 0 5px;
+    }
+    &:last-child{
+      float: right;
+    }
+    button{
+      padding:5px 10px;
+    }
+  }
+}
+.select-bar,.select-time{
+  display: flex;
+  padding:0 10px;
+  justify-content: flex-end;
+  margin-bottom: 12px;
+  background: #ffffff;
+  li{
+    display: flex;
+    height:38px;
+    align-items: center;
+    .select,.el-input{
+      width: 126px;
+      margin-right:10px;
+      input{
+        height:26px;
+      }
+    }
+    button{
+      padding:5px 10px;
+    }
+
+  }
+}
