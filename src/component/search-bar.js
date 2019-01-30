@@ -1,40 +1,52 @@
 import React, { Component } from 'react';
 import {Button,DatePicker,Select} from 'element-react'
+import {homeInit} from "../store/data";
+
 export class SearchBar extends Component {
     getSelectData = () => {
         this.props.onGetSelectData();
     }
-    setTime = (f,time) => {
-        if(f){
-            this.props.onSetTime(time,this.props.endDataValue);
-        }else{
-            this.props.onSetTime(this.props.startValuetime,time);
-        }
+    setTime = (time) => {
+        this.props.onSetTime(time);
+        // if(f){
+        //     this.props.onSetTime(time,this.props.endDateValue);
+        // }else{
+        //     this.props.onSetTime(this.props.startDateValue,time);
+        // }
+
     }
     render () {
         return (
             <ul className="search-bar cleanfix">
+                {/*<li>*/}
+                    {/*<DatePicker*/}
+                        {/*value={this.props.startDateValue}*/}
+                        {/*isShowTime={true}*/}
+                        {/*placeholder="选择开始日期"*/}
+                        {/*format="yyyy-MM-dd HH:mm:ss"*/}
+                        {/*isReadOnly={true}*/}
+                        {/*onChange={this.setTime.bind(this,true)}*/}
+                        {/*disabledDate={time=>time.getTime() > this.props.endDateValue}*/}
+                    {/*/>*/}
+                {/*</li>*/}
+                {/*<li><span>--</span></li>*/}
+                {/*<li>*/}
+                    {/*<DatePicker*/}
+                        {/*value={this.props.endDateValue}*/}
+                        {/*isShowTime={true}*/}
+                        {/*placeholder="选择结束日期"*/}
+                        {/*format="yyyy-MM-dd HH:mm:ss"*/}
+                        {/*isReadOnly={true}*/}
+                        {/*onChange={this.setTime.bind(this,false)}*/}
+                        {/*disabledDate={time=>time.getTime() > Date.now()}*/}
+                    {/*/>*/}
+                {/*</li>*/}
                 <li>
                     <DatePicker
-                        value={this.props.startDateValue}
-                        isShowTime={true}
-                        placeholder="选择开始日期"
-                        format="yyyy-MM-dd HH:mm:ss"
+                        value={this.props.DateValue}
+                        placeholder="选择日期"
                         isReadOnly={true}
-                        onChange={this.setTime.bind(this,true)}
-                        disabledDate={time=>time.getTime() > this.props.endDateValue}
-
-                    />
-                </li>
-                <li><span>--</span></li>
-                <li>
-                    <DatePicker
-                        value={this.props.endDateValue}
-                        isShowTime={true}
-                        placeholder="选择结束日期"
-                        format="yyyy-MM-dd HH:mm:ss"
-                        isReadOnly={true}
-                        onChange={this.setTime.bind(this,false)}
+                        onChange={this.setTime}
                         disabledDate={time=>time.getTime() > Date.now()}
                     />
                 </li>
@@ -79,7 +91,7 @@ export class SelectTime extends Component {
     constructor (props) {
         super(props);
         this.state={
-            dateValue:new Date()
+            dateValue:homeInit.time
         }
     }
     componentDidMount () {

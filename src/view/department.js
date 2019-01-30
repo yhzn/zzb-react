@@ -18,6 +18,9 @@ import operationIcon from '../image/operation-icon.gif'
 import sickIcon from '../image/sick-icon.gif'
 import summaryIcon from '../image/summary-icon.gif'
 import {transferData} from "../tools/transfer";
+import {baseUrl} from "../tools/environment";
+
+import {Loading,MessageBox} from 'element-react'
 
 export class Department extends Component {
     constructor (props) {
@@ -31,20 +34,25 @@ export class Department extends Component {
             examination:{},
             emTreatment:{},
             surgerySummary:{},
-            patient:{}
+            patient:{},
+            loading:true,
 
         }
     }
     componentDidMount () {
-        fetch("index.json",{
+        fetch(`${baseUrl}home/sysj?time=${this.props.match.params.date}`,{
             method:"get",
             headers:{
                 "Content-Type": "application/x-www-form-urlencoded",
+
             }
         })
             .then((response) => {
+                this.setState({loading:false});
                 if(response.status===200){
                     return response.json()
+                }else{
+                    MessageBox.alert("数据加载异常");
                 }
             })
             .then((data)=>{
@@ -66,10 +74,12 @@ export class Department extends Component {
                 })
             })
             .catch(()=>{
+                this.setState({loading:false});
+                MessageBox.alert("数据加载失败");
             })
     }
     render () {
-        const {date,emergencyTreatment,outpatient,inHospital,selectionDate,examination,emTreatment,surgerySummary,patient} = this.state;
+        const {date,emergencyTreatment,outpatient,inHospital,selectionDate,examination,emTreatment,surgerySummary,patient,loading} = this.state;
         return (
             <section className="department">
                 <Header title="数据模块"/>
@@ -277,41 +287,10 @@ export class Department extends Component {
                                     <img src={sick} alt=""/>
                                 </section>
                                 <section>
-                                    <p>2018-11-01</p>
+                                    <p>{date}</p>
                                     <dl>
                                         <dt>
                                             <img src={sickIcon} alt=""/>
-                                        </dt>
-                                        <dd>
-                                            <strong>{surgerySummary.total}</strong><span>全院人数</span>
-                                        </dd>
-                                    </dl>
-                                    <ul className="cleanfix">
-                                        <li>
-                                            <p><strong>{surgerySummary.HQ}</strong></p>
-                                            <p>总院人数</p>
-                                        </li>
-                                        <li>
-                                            <p><strong>{surgerySummary.NY}</strong></p>
-                                            <p>南院人数</p>
-                                        </li>
-                                        <li>
-                                            <p><strong>{surgerySummary.JA}</strong></p>
-                                            <p>吉安人数</p>
-                                        </li>
-
-                                    </ul>
-                                </section>
-                            </section>
-                            <section className="swiper-slide">
-                                <section>
-                                    <img src={summary} alt=""/>
-                                </section>
-                                <section>
-                                    <p>2018-11-01</p>
-                                    <dl>
-                                        <dt>
-                                            <img src={summaryIcon} alt=""/>
                                         </dt>
                                         <dd>
                                             <strong>{patient.total}</strong><span>全院人数</span>
@@ -335,8 +314,42 @@ export class Department extends Component {
                                 </section>
 
                             </section>
+                            <section className="swiper-slide">
+                                <section>
+                                    <img src={summary} alt=""/>
+                                </section>
+                                <section>
+                                    <p>{date}</p>
+                                    <dl>
+                                        <dt>
+                                            <img src={summaryIcon} alt=""/>
+                                        </dt>
+                                        <dd>
+                                            <strong>{surgerySummary.total}</strong><span>全院人数</span>
+                                        </dd>
+                                    </dl>
+                                    <ul className="cleanfix">
+                                        <li>
+                                            <p><strong>{surgerySummary.HQ}</strong></p>
+                                            <p>总院人数</p>
+                                        </li>
+                                        <li>
+                                            <p><strong>{surgerySummary.NY}</strong></p>
+                                            <p>南院人数</p>
+                                        </li>
+                                        <li>
+                                            <p><strong>{surgerySummary.JA}</strong></p>
+                                            <p>吉安人数</p>
+                                        </li>
+                                    </ul>
+                                </section>
+                            </section>
+
                         </section>
                 </section>
+                {
+                    loading && <Loading text="数据加载中" loading={true} fullscreen={true}/>
+                }
             </section>
         )
     }

@@ -71,7 +71,13 @@ export class Phone extends Component {
                 <Header title={title}/>
                 <section className="container" ref="scroll">
                     <section className="search">
-                        <Input placeholder="请输入部门名称或姓名" value={searchValue} onChange={this.setSearchValue} append={<Button type="info" icon="search" onClick={this.search}>搜索</Button>}/>
+                        <Input
+                            placeholder="请输入部门名称或姓名"
+                            alue={searchValue}
+                            onChange={this.setSearchValue}
+                            append={
+                                <Button type="info" icon="search" onClick={this.search}>搜索</Button>}
+                        />
                     </section>
                     <Table
                         style={{width: '100%'}}

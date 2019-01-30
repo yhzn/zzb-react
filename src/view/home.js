@@ -21,6 +21,9 @@ import summary from '../image/summary.png'
 import drug from '../image/drug.png'
 import {transferData} from "../tools/transfer";
 import moment from "moment/moment";
+import {baseUrl} from "../tools/environment";
+import {Loading,MessageBox} from 'element-react'
+import {homeInit} from "../store/data";
 
 export class Home extends Component {
     constructor (props) {
@@ -29,53 +32,78 @@ export class Home extends Component {
             dateValue:new Date(),
             clinicTotal:null,
             inHospitalTotal:null,
+            loading:homeInit.flag
         }
     }
     componentDidMount () {
-        this.getData();
+        let startY=homeInit.scroll;
+        if(homeInit.flag){
+            homeInit.flag=false;
+            this.getData(new Date());
+        }else{
+            this.setState({
+                clinicTotal:homeInit.data.clinicTotal,
+                inHospitalTotal:homeInit.data.inHospitalTotal,
+                dateValue:homeInit.time,
+            })
+        }
         new BScroll(this.refs.scroll,{
             scrollY:true,
             click:true,
+            startY:startY,
             probeType:3,
+        }).on("scroll",(pos)=>{
+            homeInit.scroll=parseInt(pos.y);
         });
     }
     getData = (time) => {
-        if(time){
-            this.setState({dateValue:time})
-            console.log(moment(time).format('YYYY-MM-DD'))
-        }
-        fetch("index.json",{
+        homeInit.time=time;
+        this.setState({
+            loading:true,
+            dateValue:time
+        });
+        let getData=moment(time).format('YYYY-MM-DD');
+        fetch(`${baseUrl}home/sycount?time=${getData}`,{
             method:"get",
             headers:{
                 "Content-Type": "application/x-www-form-urlencoded",
+
             }
         })
             .then((response) => {
+                this.setState({loading:false});
                 if(response.status===200){
                     return response.json()
+                }else{
+                    MessageBox.alert("数据加载异常");
                 }
             })
             .then((data)=>{
+                homeInit.data=data;
                 this.setState({
                     clinicTotal:data.clinicTotal,
                     inHospitalTotal:data.inHospitalTotal
                 })
             })
             .catch(()=>{
+                this.setState({loading:false});
+                MessageBox.alert("数据加载失败");
+
             })
+
     }
     jumpTo = (par,f=true) => {
-        if(f){
-            if(transferData.swiper.page!==par){
-                transferData.swiper.page=par;
+        if(f) {
+            if (transferData.swiper.page !== par) {
+                transferData.swiper.page = par;
             }
-            this.props.history.push('/department')
+            this.props.history.push('/department/' + moment(this.state.dateValue).format('YYYY-MM-DD'), null);
         }else{
-            this.props.history.push(par)
+            this.props.history.push(par,null);
         }
     }
     render () {
-        const {dateValue,clinicTotal} = this.state;
+        const {dateValue,clinicTotal,inHospitalTotal,loading} = this.state;
         return (
             <section className="home">
                 <Header />
@@ -84,12 +112,12 @@ export class Home extends Component {
                         <section className="total-people">
                             <ul>
                                 <li>
-                                    <p>门诊总人数</p>
+                                    <p>门急诊总人数</p>
                                     <strong>{clinicTotal}</strong>
                                 </li>
                                 <li>
                                     <p>在院病人总人数</p>
-                                    <strong>12312</strong>
+                                    <strong>{inHospitalTotal}</strong>
                                 </li>
                             </ul>
                             <section>
@@ -207,6 +235,9 @@ export class Home extends Component {
                         </footer>
                     </section>
                 </section>
+                {
+                    loading && <Loading text="数据加载中" loading={loading} fullscreen={true}/>
+                }
             </section>
         )
     }

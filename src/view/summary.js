@@ -5,6 +5,8 @@ import {Header} from "../component/header";
 import {SelectTime} from "../component/search-bar";
 import BScroll from "better-scroll";
 import moment from "moment/moment";
+import {baseUrl} from "../tools/environment";
+import {homeInit} from "../store/data";
 
 export class Summary extends Component{
     constructor (props) {
@@ -12,7 +14,8 @@ export class Summary extends Component{
         this.state={
             activeName:null,
             data:[],
-            title:null
+            title:null,
+            yq:"ZY"
         }
     }
     componentDidMount () {
@@ -23,15 +26,17 @@ export class Summary extends Component{
         });
         switch(this.props.match.params.id){
             case "1":
-                this.setState({title:"总院"});
+                this.setState({title:"总院",yq:"ZY"});
+                this.getData(homeInit.time,"ZY");
                 break;
             case "2":
-                this.setState({title:"南院"});
+                this.setState({title:"南院",yq:"NY"});
+                this.getData(homeInit.time,"NY");
                 break;
             default:
-                this.setState({title:"吉安"});
+                this.setState({title:"吉安",yq:"JA"});
+                this.getData(homeInit.time,"JA");
         }
-        this.getData();
     }
     scrollRefresh = () => {
         this.timer=setTimeout(()=>{
@@ -39,11 +44,13 @@ export class Summary extends Component{
             clearTimeout(this.timer);
         },600)
     }
-    getData = (time) => {
-        if(time){
-            console.log(moment(time).format('YYYY-MM-DD'))
+    getData = (time,yq) => {
+        console.log(moment(time).format('YYYY-MM-DD'))
+        let selectYq=this.state.yq;
+        if(!!yq){
+            selectYq=yq;
         }
-        fetch("summary.json",{
+        fetch(`${baseUrl}sshz/index?time=${moment(time).format('YYYY-MM-DD')}&&yq=${selectYq}`,{
             method:"get",
             headers:{
                 "Content-Type": "application/x-www-form-urlencoded",
@@ -55,6 +62,7 @@ export class Summary extends Component{
                 }
             })
             .then((data)=>{
+                console.log(data)
                 this.setState({data})
             })
             .catch(()=>{
@@ -76,18 +84,17 @@ export class Summary extends Component{
                         {
                             data.map((item,index) => (
                                 <Collapse value={activeName} onChange={this.scrollRefresh} key={index}>
-                                    <Collapse.Item title={<section><span>{item.department}</span><span>{index+1}</span></section>} name={index+""}>
+                                    <Collapse.Item title={<section><span>{item.KSMC}</span><span>{index+1}</span></section>} name={index+""}>
                                         <ul className="table-body cleanfix">
-                                            <li><span>手术例数：</span><span>{item.operationNum}</span></li>
-                                            <li><span>三四级例数：</span><span>{item.levelNum}</span></li>
-                                            <li><span>全年计划累计数：</span><span>{item.APNum}</span></li>
-                                            <li><span>全年累计例数：</span><span>{item.ACNum}</span></li>
-                                            <li><span>指标完成：</span><span>{item.target}</span></li>
-                                            <li><span>同比增加：</span><span>{item.increase}</span></li>
+                                            <li><span>手术例数：</span><span>{item.SSLS}</span></li>
+                                            <li><span>三四级例数：</span><span>{item.SSJLS}</span></li>
+                                            <li><span>全年计划累计数：</span><span>{item.YZRC}</span></li>
+                                            <li><span>全年累计例数：</span><span>{item.JNSL}</span></li>
+                                            <li><span>指标完成：</span><span>{item.YZRC===0?0:(item.JNSL/item.YZRC*100).toFixed(2)}%</span></li>
+                                            <li><span>同比增加：</span><span>{item.QNSL===0?0:((item.JNSL-item.QNSL)/item.QNSL*100).toFixed(2)}%</span></li>
                                         </ul>
                                     </Collapse.Item>
                                 </Collapse>
-
                             ))
                         }
 

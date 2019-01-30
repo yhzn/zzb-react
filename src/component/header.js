@@ -8,13 +8,13 @@ class HeaderC extends Component {
     componentDidMount () {
 
     }
-    goback = () => {
+    goBack = () => {
         this.props.history.goBack()
     }
     render () {
         return (
             <header>
-                    <i className="el-icon-arrow-left" onClick={()=>this.goback()}/>
+                    <i className="el-icon-arrow-left" onClick={this.goBack}/>
                     <section>
                         {
                             this.props.title?this.props.title:"总值班系统"

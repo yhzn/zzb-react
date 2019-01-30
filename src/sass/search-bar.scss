@@ -1,5 +1,5 @@
 .search-bar{
-  padding: 10px 10px 0;
+  padding: 0 10px;
   margin-bottom: 12px;
   background: #ffffff;
   .el-input__icon{
@@ -10,13 +10,16 @@
     padding-left:5px;
   }
   .el-input.el-date-editor.el-date-editor--date{
-    width:152px;
+    width:106px;
+  }
+  .el-input.el-date-editor.el-date-editor--date input{
+    height:26px;
   }
   li{
     display: flex;
     align-items: center;
     float:left;
-    height:38px;
+    height:43px;
     &:nth-child(2){
       margin: 0 5px;
     }

@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import {Header} from '../component/header'
 import {SearchBar} from "../component/search-bar";
-import {Tabs,Table} from 'element-react'
+import {Tabs, Table, MessageBox,Loading} from 'element-react'
 import BScroll from "better-scroll";
 import 'whatwg-fetch'
 import moment from "moment/moment";
+import {baseUrl} from "../tools/environment";
+import {homeInit} from "../store/data";
 
 export class WaitQuery extends Component {
     constructor (props) {
@@ -14,42 +16,31 @@ export class WaitQuery extends Component {
             columns: [
                 {
                     label: "门诊科室",
-                    prop: "name",
+                    prop: "KSMC",
                     width:"138"
 
                 },
                 {
                     label: "挂号人次",
-                    prop: "data",
+                    prop: "MZRC",
 
                 },
                 {
                     label: "等待人次",
-                    prop: "percent"
+                    prop: "DDRC"
                 }
             ],
-            tableData: [
-                {
-                    name: '导入天涯海角',
-                    data: '3320',
-                    percent: '100.33%'
-                }
-            ],
-            emData: [
-                {
-                    name: '导入天涯海角',
-                    data: '3320',
-                    percent: '100.33%'
-                }
-            ],
+            tableData: [],
+            emData: [],
             startDateValue:null,
-            endDateValue:null
+            endDateValue:null,
+            loading:true,
+            yq:"ZY"
 
         }
     }
     componentDidMount () {
-        this.setState({startDateValue: new Date(moment().format('YYYY/MM/DD'))});
-        this.setState({endDateValue:new Date()});
+        this.setState({DateValue: homeInit.time});
         this.scroll=new BScroll(this.refs.scroll,{
             scrollY:true,
             click:true,
@@ -57,15 +48,18 @@ export class WaitQuery extends Component {
         });
         switch(this.props.match.params.id){
             case "1":
-                this.setState({title:"总院"});
+                this.setState({title:"总院",yq:"ZY"});
+                this.getData(moment(homeInit.time).format('YYYY/MM/DD'),"ZY");
                 break;
             case "2":
-                this.setState({title:"南院"});
+                this.setState({title:"南院",yq:"NY"});
+                this.getData(moment(homeInit.time).format('YYYY/MM/DD'),"NY");
                 break;
             default:
-                this.setState({title:"吉安"});
+                this.setState({title:"吉安",yq:"JA"});
+                this.getData(moment(homeInit.time).format('YYYY/MM/DD'),"JA");
+
         }
-        this.getData();
     }
     scrollRefresh = () => {
         this.timer=setTimeout(()=>{
@@ -73,41 +67,43 @@ export class WaitQuery extends Component {
             clearTimeout(this.timer);
         },600)
     }
-    getData = () => {
-        fetch("wait-query.json",{
+    getData = (time,yq="ZY") => {
+        fetch(`${baseUrl}ghao/ddbr?timeStart=${time} 00:00:00&&timeEnd=${time} 23:59:59&&yq=${yq}`,{
             method:"get",
             headers:{
                 "Content-Type": "application/x-www-form-urlencoded",
             }
         })
             .then((response) => {
+                this.setState({loading:false});
                 if(response.status===200){
                     return response.json()
+                }else {
+                    MessageBox.alert("数据加载异常");
                 }
             })
-            .then((data)=>{
+            .then((data) => {
                 this.setState({
-                    tableData:data.tableData,
-                    emData:data.emData
-                })
+                    tableData:data.mzks,
+                    emData:data.jzks
+                });
             })
             .catch(()=>{
+                this.setState({loading:false});
+                MessageBox.alert("数据加载失败");
+
             })
     }
-    setTime = (start,end) =>{
+    setTime = (time) =>{
         this.setState({
-            startDateValue:start,
-            endDateValue:end,
-
+            DateValue:time,
         })
     }
     getSelectData = ()=> {
-        console.log(moment(this.state.startDateValue).format("YYYY-MM-DD HH:mm:ss"));
-        console.log(moment(this.state.endDateValue).format("YYYY-MM-DD HH:mm:ss"));
-
+        this.getData(moment(this.state.DateValue).format('YYYY/MM/DD'),this.state.yq);
     }
     render () {
-        const {title,columns,tableData,emData,startDateValue,endDateValue} = this.state;
+        const {title,columns,tableData,emData,DateValue,loading} = this.state;
         return (
             <section className="wait-query">
                 <Header title={`${title}等待病人查询`}/>
@@ -115,32 +111,31 @@ export class WaitQuery extends Component {
                     <Tabs activeName="1" onTabClick={this.scrollRefresh}>
                         <Tabs.Pane label="门诊各科室等待人次" name="1">
                             <SearchBar
-                                startDateValue={startDateValue}
-                                endDateValue={endDateValue}
+                                DateValue={DateValue}
                                 onGetSelectData={this.getSelectData}
                                 onSetTime={this.setTime}
                             />
                             <Table
-                                style={{width: '100%'}}
                                 columns={columns}
                                 data={tableData}
                             />
                         </Tabs.Pane>
                         <Tabs.Pane label="急诊各科室等待人次" name="2">
                             <SearchBar
-                                startDateValue={startDateValue}
-                                endDateValue={endDateValue}
+                                DateValue={DateValue}
                                 onGetSelectData={this.getSelectData}
                                 onSetTime={this.setTime}
                             />
                             <Table
-                                style={{width: '100%'}}
                                 columns={columns}
                                 data={emData}
                             />
                         </Tabs.Pane>
                     </Tabs>
                 </section>
+                {
+                    loading && <Loading text="数据加载中" loading={loading} fullscreen={true}/>
+                }
             </section>
         )
     }

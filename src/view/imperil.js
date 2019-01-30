@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import {Header} from "../component/header";
 import {SelectTime} from "../component/search-bar";
-import {Collapse} from "element-react"
+import {Collapse, MessageBox,Loading} from "element-react"
 import BScroll from "better-scroll";
 import moment from "moment/moment";
+import {baseUrl} from "../tools/environment";
+import {homeInit} from "../store/data";
 
 export class Imperil extends Component {
     constructor (props) {
@@ -11,7 +13,9 @@ export class Imperil extends Component {
         this.state={
             title:null,
             activeName:null,
-            data:[]
+            data:[],
+            loading:true,
+            yq:"ZY"
         }
     }
     componentDidMount () {
@@ -19,19 +23,22 @@ export class Imperil extends Component {
             scrollY:true,
             click:true,
             probeType:3,
+
         });
 
         switch(this.props.match.params.id){
             case "1":
-                this.setState({title:"总院"});
+                this.setState({title:"总院",yq:"ZY"});
+                this.getData(homeInit.time,"ZY");
                 break;
             case "2":
-                this.setState({title:"南院"});
+                this.setState({title:"南院",yq:"NY"});
+                this.getData(homeInit.time,"NY");
                 break;
             default:
-                this.setState({title:"吉安"});
+                this.setState({title:"吉安",yq:"JA"});
+                this.getData(homeInit.time,"JA");
         }
-        this.getData();
     }
     scrollRefresh = () => {
         this.timer=setTimeout(()=>{
@@ -39,29 +46,39 @@ export class Imperil extends Component {
             clearTimeout(this.timer);
         },600)
     }
-    getData = (time) => {
-        if(time){
-            console.log(moment(time).format('YYYY-MM-DD'))
+    getData = (time,yq) => {
+        let selectYq=this.state.yq;
+        if(!!yq){
+            selectYq=yq;
         }
-        fetch("imperil.json",{
+        console.log(moment(time).format('YYYY-MM-DD'))
+
+         console.log(yq)
+        fetch(`${baseUrl}wzbr/index?time=${moment(time).format('YYYY-MM-DD')}&&yq=${selectYq}`,{
             method:"get",
             headers:{
                 "Content-Type": "application/x-www-form-urlencoded",
+
             }
         })
             .then((response) => {
+                this.setState({loading:false});
                 if(response.status===200){
                     return response.json()
+                }else{
+                    MessageBox.alert("数据加载异常");
                 }
             })
-            .then((data)=>{
+            .then((data) => {
                 this.setState({data})
             })
             .catch(()=>{
+                this.setState({loading:false});
+                MessageBox.alert("数据加载失败");
             })
     }
     render () {
-        const {title,data} = this.state;
+        const {title,data,loading} = this.state;
         return (
             <section>
                 <Header title={`${title}住院危重病人`}/>
@@ -77,36 +94,43 @@ export class Imperil extends Component {
                                 <li>序号</li>
                             </ul>
                             {
-                                data.map((item,index) => (
-                                    <Collapse value={this.state.activeName} onChange={this.scrollRefresh} key={index}>
-                                        <Collapse.Item title={
-                                            <ul className="collapse">
-                                                <li>{item.name}</li>
-                                                <li>{item.gender}</li>
-                                                <li>{item.num}</li>
-                                                <li>{item.department}</li>
-                                                <li>{index+1}</li>
-                                            </ul>
-                                        } name={index+""}>
-                                            <ul>
-                                                <li><span>床号：</span><span>{item.bedNum}</span></li>
-                                                <li><span>年龄：</span><span>{item.age}</span></li>
-
-                                                <li><span>病人科室：</span><span>{item.department}</span></li>
-                                                <li><span>告病危病区：</span><span>{item.wing}</span></li>
-                                                <li><span>诊断：</span><span>{item.diagnosis}</span></li>
-                                                <li><span>入院时间：</span><span>{item.inHospitalTime}</span></li>
-                                                <li><span>告病危时间：</span><span>{item.woTime}</span></li>
-                                                <li><span>告病危天数：</span><span>{item.woDay}</span></li>
-                                            </ul>
-                                        </Collapse.Item>
+                                data.length!==0?
+                                    <Collapse value={this.state.activeName} onChange={this.scrollRefresh}>
+                                        {
+                                            data.map((item,index) => (
+                                                <Collapse.Item title={
+                                                    <ul className="collapse">
+                                                        <li>{item.BRXM}</li>
+                                                        <li>{item.BRXB===1?"男":"女"}</li>
+                                                        <li>{item.ZYHM}</li>
+                                                        <li>{item.BRSK}</li>
+                                                        <li>{index+1}</li>
+                                                    </ul>
+                                                } name={index+""}  key={index}>
+                                                    <ul>
+                                                        <li><span>床号：</span><span>{item.BRCH}</span></li>
+                                                        <li><span>年龄：</span><span>{item.NL}</span></li>
+                                                        <li><span>病人科室：</span><span>{item.BRSK}</span></li>
+                                                        <li><span>告病危病区：</span><span>{item.KSMC}</span></li>
+                                                        <li><span>诊断：</span><span>{item.ZD}</span></li>
+                                                        <li><span>入院时间：</span><span>{item.RYRQ}</span></li>
+                                                        <li><span>告病危时间：</span><span>{item.KSSJ}</span></li>
+                                                        <li><span>告病危天数：</span><span>{item.BWTS}</span></li>
+                                                    </ul>
+                                                </Collapse.Item>
+                                            ))
+                                        }
                                     </Collapse>
-
-                                ))
+                                :
+                                    <section className="data-empty">无数据......</section>
                             }
+
                         </section>
                     </section>
                 </section>
+                {
+                    loading && <Loading text="数据加载中......" loading={true} fullscreen={true}/>
+                }
             </section>
         )
     }

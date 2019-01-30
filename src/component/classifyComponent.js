@@ -32,26 +32,26 @@ export class ClassifyComponent extends Component {
         }
         this.chart={}
     }
-    componentDidUpdate () {
-        this.chart.setOption(this.props.option);
+    componentWillReceiveProps () {
+        this.chart.setOption(this.props.option)
     }
     componentDidMount () {
         this.chart = eCharts.init(this.refs.chart);
         let columns=[
             {
                 label: "科室名称",
-                prop: "name",
+                prop: "KSMC",
                 width:"138"
 
             },
             {
                 label: "人次",
-                prop: "data",
+                prop: "GHRC",
 
             },
             {
                 label: "百分比%",
-                prop: "percent"
+                prop: "BFB"
             }
         ]
        switch (this.props.name){
@@ -77,8 +77,8 @@ export class ClassifyComponent extends Component {
     getSelectData = () => {
         this.props.onGetSelectData();
     }
-    setTime = (start,end) => {
-        this.props.onSetTime(start,end);
+    setTime = (time) => {
+        this.props.onSetTime(time);
     }
     render () {
         const {selectData,columns} = this.state;
@@ -87,6 +87,7 @@ export class ClassifyComponent extends Component {
                 <SearchBar
                     startDateValue={this.props.startDateValue}
                     endDateValue={this.props.endDateValue}
+                    DateValue={this.props.DateValue}
                     onGetSelectData={this.getSelectData}
                     onSetTime={this.setTime}
                 />
@@ -111,7 +112,6 @@ export class ClassifyComponent extends Component {
                 </section>
                 <section>
                     <Table
-                        style={{width: '100%'}}
                         columns={columns}
                         data={this.props.tableData}
                     />

@@ -12,37 +12,51 @@ import partBanner_7 from '../image/part-banner-7.gif'
 import part_1 from '../image/part_1.gif'
 import part_2 from '../image/part_2.gif'
 import part_3 from '../image/part_3.gif'
-function SubPage(props) {
-    return (
-        <section className="container">
-            <section>
-                <img src={props.banner} alt=""/>
+import BScroll from "better-scroll";
+class SubPage extends Component{
+   componentDidMount () {
+       new BScroll(this.refs.scroll,{
+           scrollY:true,
+           click:true,
+           probeType:3,
+       });
+   }
+    render () {
+        let {banner,url}=this.props;
+        return (
+            <section className="container" ref="scroll">
+                <section>
+                    <section className="banner">
+                        <img src={banner} alt=""/>
+                    </section>
+                    <ul>
+                        <li>
+                            <Link to={url+"1"}>
+                                <img src={part_1} alt=""/>
+                                <strong>总院</strong>
+                                <i className="el-icon-arrow-right" />
+                            </Link>
+                        </li>
+                        <li>
+                            <Link to={url+"2"}>
+                                <img src={part_2} alt=""/>
+                                <strong>南院</strong>
+                                <i className="el-icon-arrow-right" />
+                            </Link>
+                        </li>
+                        <li>
+                            <Link to={url+"3"}>
+                                <img src={part_3} alt=""/>
+                                <strong>吉安</strong>
+                                <i className="el-icon-arrow-right" />
+                            </Link>
+                        </li>
+                    </ul>
+
+                </section>
             </section>
-            <ul>
-                <li>
-                    <Link to={props.url+"1"}>
-                        <img src={part_1} alt=""/>
-                        <strong>总院</strong>
-                        <i className="el-icon-arrow-right" />
-                    </Link>
-                </li>
-                <li>
-                    <Link to={props.url+"2"}>
-                        <img src={part_2} alt=""/>
-                        <strong>南院</strong>
-                        <i className="el-icon-arrow-right" />
-                    </Link>
-                </li>
-                <li>
-                    <Link to={props.url+"3"}>
-                        <img src={part_3} alt=""/>
-                        <strong>吉安</strong>
-                        <i className="el-icon-arrow-right" />
-                    </Link>
-                </li>
-            </ul>
-        </section>
-    )
+        )
+    }
 }
 export class Page extends Component {
     constructor (props) {
@@ -52,7 +66,7 @@ export class Page extends Component {
         }
     }
     componentDidMount () {
-
+        console.log(1)
     }
     render () {
         let pageComponent = null;

@@ -25,32 +25,38 @@ export class DetailsComponent extends Component {
                     <li>序号</li>
                 </ul>
                 {
-                    data.map((item,index) => (
-                        <Collapse value={this.state.activeName} onChange={this.scrollRefresh} key={index}>
-                            <Collapse.Item title={
-                                <ul className="collapse">
-                                    <li>{item.name}</li>
-                                    <li>{item.gender}</li>
-                                    <li>{item.num}</li>
-                                    <li>{item.department}</li>
-                                    <li>{index+1}</li>
-                                </ul>
-                            } name={index+""}>
-                                <ul>
-                                    <li><span>科&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;室：</span><span>{item.department}</span></li>
-                                    <li><span>手术名称：</span><span>{item.operationName}</span></li>
-                                    <li><span>手术级别：</span><span>3</span></li>
-                                    <li><span>申请时间：</span><span>{item.applicationTime}</span></li>
-                                    <li><span>安排时间：</span><span>{item.executionTime}</span></li>
-                                    <li><span>手术医生：</span><span>{item.doctor}</span></li>
-                                    <li><span>手术医助：</span><span>{item.assistantDoctor}</span></li>
-                                    <li><span>麻醉方式：</span><span>{item.anaesthesia}</span></li>
-                                </ul>
-                            </Collapse.Item>
-                        </Collapse>
-
-                    ))
+                    data.length!==0?
+                        <Collapse value={this.state.activeName} onChange={this.scrollRefresh}>
+                        {
+                            data.map((item,index) => (
+                                <Collapse.Item title={
+                                    <ul className="collapse">
+                                        <li>{item.BRXM}</li>
+                                        <li>{item.BRXB}</li>
+                                        <li>{item.ZYHM}</li>
+                                        <li>{item.KSMC}</li>
+                                        <li>{index+1}</li>
+                                    </ul>
+                                } name={index+""} key={index}>
+                                    <ul>
+                                        <li><span>科&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;室：</span><span>{item.KSMC}</span></li>
+                                        <li><span>手术名称：</span><span>{item.SSMC}</span></li>
+                                        <li><span>手术级别：</span><span>{item.SSJB}</span></li>
+                                        <li><span>安排日期：</span><span>{item.APRQ}</span></li>
+                                        <li><span>手术日期：</span><span>{item.SSRQ}</span></li>
+                                        <li><span>手术医生：</span><span>{item.SSYS}</span></li>
+                                        <li><span>手术医助：</span><span>{item.SSYZ}</span></li>
+                                        <li><span>麻醉方式：</span><span>{item.MZFS}</span></li>
+                                    </ul>
+                                </Collapse.Item>
+                            ))
+                        }
+                    </Collapse>:
+                    <section className="data-empty">
+                        无数据......
+                    </section>
                 }
+
             </section>
         )
     }

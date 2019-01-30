@@ -55,3 +55,18 @@
     padding:0;
     text-align: center;
 }
+.el-message-box{
+    position: absolute;
+    width: 300px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%,-50%);
+}
+.data-empty{
+    padding:20px;
+    text-align: center;
+    color:#b6b6b6;
+}
+table{
+    width:100%;
+}

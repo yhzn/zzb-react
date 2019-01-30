@@ -23,10 +23,6 @@ import {Imperil} from "./imperil";
 // )
 
 export class Container extends React.Component {
-    constructor(props, context) {
-        super(props, context);
-    }
-
     componentWillMount() {
         console.log(this.props.match.path);
 
